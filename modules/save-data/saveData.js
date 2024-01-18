@@ -37,17 +37,29 @@ function saveData(jsonData, folderName, overwrite) {
 
               studentsData.forEach((student) => {
                 const studentInfo = {
-                  Name: student.name,
-                  Surname: student.surname,
+                  Name: student.name.split(" ").join(" "),
+                  Username: student.username,
                   Street: student.address.street,
                   ZipCode: student.address.zipcode,
                   City: student.address.city,
                   Phone: student.phone,
                 };
 
+                let content = `Name: 
+                ${studentInfo.Name}, \n Username: 
+                ${studentInfo.Username}, \n Street: 
+                ${studentInfo.Street}, \n \nZipCode:
+                ${studentInfo.ZipCode}, \nCity:
+                ${studentInfo.City}, \nPhone:
+                ${studentInfo.Phone}, `;
+
                 fs.writeFile(
-                  path.join(__dirname, "dataFiles", `studentInfo_${student.name}.txt`),
-                  JSON.stringify(studentInfo),
+                  path.join(
+                    __dirname,
+                    "dataFiles",
+                    `studentInfo_${studentInfo.Name}.txt`
+                  ),
+                  content,
                   (err) => {
                     if (err) {
                       console.log(err);
@@ -57,7 +69,7 @@ function saveData(jsonData, folderName, overwrite) {
                   }
                 );
 
-                // console.log(studentInfo);
+                console.log(studentInfo);
               });
             }
           }
